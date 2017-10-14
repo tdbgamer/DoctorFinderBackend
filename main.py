@@ -12,4 +12,6 @@ def main():
 
 
 if __name__ == '__main__':
+    from api.doctors import doctors
+    app.register_blueprint(doctors)
     app.run(debug=True)

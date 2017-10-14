@@ -10,10 +10,21 @@ if __name__ == '__main__':
 
     @manager.command
     def insert_data():
-        with open('fake_data.csv', 'r', newline='') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                pass
+        from main import make_app, db
+        app = make_app()
+        with app.app_context():
+            with open('fake_data.csv', 'r', newline='') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    doctor = Doctor(name=row['name'], occupation=row['occupation'])
+                    address = Address(phone_number=int(row['phone_number']),
+                                      street_address=row['street_address'],
+                                      zipcode=int(row['zipcode']),
+                                      long=float(row['long']),
+                                      lat=float(row['lat']))
+                    doctor.addresses.append(address)
 
+                    db.session.add(doctor)
+                db.session.commit()
 
     manager.run()

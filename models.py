@@ -11,11 +11,27 @@ class Doctor(db.Model):
     occupation = db.Column(db.String)
     addresses = db.relationship('Address', secondary=doctor_address,
                                 lazy='subquery', backref=db.backref('doctors', lazy='joined'))
+    ratings = db.relationship('Rating', backref='doctor', lazy=True)
 
     def serialize(self):
         return {
             "name": self.name,
             "occupation": self.occupation,
+        }
+
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stars = db.Column(db.Float)
+    username = db.Column(db.String, default='Anonymous')
+    review = db.Column(db.String)
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'),
+                          nullable=False)
+
+    def serialize(self):
+        return {
+            "stars": self.stars,
+            "username": self.username,
+            "review": self.review
         }
 
 class Address(db.Model):

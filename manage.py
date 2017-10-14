@@ -13,7 +13,7 @@ if __name__ == '__main__':
         with open('fake_data.csv', 'r', newline='') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                # do stuff
+                pass
 
 
     manager.run()

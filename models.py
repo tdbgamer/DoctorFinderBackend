@@ -12,6 +12,12 @@ class Doctor(db.Model):
     addresses = db.relationship('Address', secondary=doctor_address,
                                 lazy='subquery', backref=db.backref('doctors', lazy='joined'))
 
+    def serialize(self):
+        return {
+            "name": self.name,
+            "occupation": self.occupation,
+        }
+
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     street_address = db.Column(db.String)
@@ -19,6 +25,15 @@ class Address(db.Model):
     phone_number = db.Column(db.Integer)
     long = db.Column(db.Float)
     lat = db.Column(db.Float)
+
+    def serialize(self):
+        return {
+            "phone_number": self.phone_number,
+            "street_address": self.street_address,
+            "zipcode": self.zipcode,
+            "long": self.long,
+            "lat": self.lat
+        }
 
 if __name__ == '__main__':
     db.create_all()

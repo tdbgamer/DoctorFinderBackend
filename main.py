@@ -13,5 +13,8 @@ def main():
 
 if __name__ == '__main__':
     from api.doctors import doctors
+    from api.addresses import addresses
+
     app.register_blueprint(doctors)
+    app.register_blueprint(addresses)
     app.run(debug=True)

@@ -13,11 +13,21 @@ class Doctor(db.Model):
                                 lazy='subquery', backref=db.backref('doctors', lazy='joined'))
     ratings = db.relationship('Rating', backref='doctor', lazy=True)
 
-    def serialize(self):
-        return {
-            "name": self.name,
-            "occupation": self.occupation,
-        }
+    def serialize(self, deep=False):
+        doctor = {"id": self.id,
+                  "name": self.name,
+                  "occupation": self.occupation,
+                  "ratings": []}
+
+        for rating in self.ratings:
+            doctor['ratings'].append(rating.serialize())
+
+        if deep:
+            doctor['addresses'] = []
+            for address in self.addresses:
+                doctor['addresses'].append(address.serialize())
+
+        return doctor
 
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,11 +38,10 @@ class Rating(db.Model):
                           nullable=False)
 
     def serialize(self):
-        return {
-            "stars": self.stars,
-            "username": self.username,
-            "review": self.review
-        }
+        return {"id": self.id,
+                "stars": self.stars,
+                "username": self.username,
+                "review": self.review}
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,14 +51,18 @@ class Address(db.Model):
     long = db.Column(db.Float)
     lat = db.Column(db.Float)
 
-    def serialize(self):
-        return {
-            "phone_number": self.phone_number,
-            "street_address": self.street_address,
-            "zipcode": self.zipcode,
-            "long": self.long,
-            "lat": self.lat
-        }
+    def serialize(self, deep=False):
+        address = {"id": self.id,
+                   "phone_number": self.phone_number,
+                   "street_address": self.street_address,
+                   "zipcode": self.zipcode,
+                   "long": self.long,
+                   "lat": self.lat}
+        if deep:
+            address['doctors'] = []
+            for doctor in self.doctors:
+                address['doctors'].append(doctor.serialize())
+        return address
 
 if __name__ == '__main__':
     db.create_all()

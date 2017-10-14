@@ -32,9 +32,5 @@ def get_doctors():
     doctors = Doctor.query.all()
     doctor_list = []
     for doctor in doctors:
-        doc = doctor.serialize()
-        doc['addresses'] = []
-        for address in doctor.addresses:
-            doc['addresses'].append(address.serialize())
-        doctor_list.append(doc)
+        doctor_list.append(doctor.serialize(deep=True))
     return Response(json.dumps(doctor_list), content_type='application/json')

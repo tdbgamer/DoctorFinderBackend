@@ -13,10 +13,6 @@ def get_addresses():
 
     addresses_list = []
     for address in addresses:
-        addr = address.serialize()
-        addr['doctors'] = []
-        for doctor in address.doctors:
-            addr['doctors'].append(doctor.serialize())
-        addresses_list.append(addr)
+        addresses_list.append(address.serialize(deep=True))
 
     return Response(json.dumps(addresses_list), content_type='application/json')

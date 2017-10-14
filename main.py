@@ -11,10 +11,14 @@ def main():
     return "Hello Word"
 
 
-if __name__ == '__main__':
+def make_app():
     from api.doctors import doctors
     from api.addresses import addresses
 
     app.register_blueprint(doctors)
     app.register_blueprint(addresses)
+    return app
+
+if __name__ == '__main__':
+    app = make_app()
     app.run(debug=True)

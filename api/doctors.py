@@ -6,6 +6,7 @@ from main import db
 
 doctors = Blueprint('doctors', __name__)
 
+
 @doctors.route('/doctors', methods=['POST'])
 def make_doctor():
     json_data = request.get_json(force=True)
@@ -24,6 +25,7 @@ def make_doctor():
     db.session.commit()
 
     return Response(status=200)
+
 
 @doctors.route('/doctors', methods=['GET'])
 def get_doctors():

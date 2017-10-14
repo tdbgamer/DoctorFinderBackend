@@ -1,4 +1,6 @@
 flask
 flask_sqlalchemy
+Flask-Migrate
+Flask-Script
 gunicorn
 psycopg2

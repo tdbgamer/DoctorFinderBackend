@@ -1,8 +1,8 @@
 from main import db
 
 doctor_address = db.Table('doctor_address',
-    db.Column('left_id', db.Integer, db.ForeignKey('doctor.id')),
-    db.Column('right_id', db.Integer, db.ForeignKey('address.id'))
+    db.Column('doctor_id', db.Integer, db.ForeignKey('doctor.id')),
+    db.Column('address_id', db.Integer, db.ForeignKey('address.id'))
 )
 
 class Doctor(db.Model):
@@ -14,7 +14,8 @@ class Doctor(db.Model):
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    street_address = db.Column(db.String)
+    zipcode = db.Column(db.Integer)
     phone_number = db.Column(db.Integer)
     long = db.Column(db.Float)
     lat = db.Column(db.Float)

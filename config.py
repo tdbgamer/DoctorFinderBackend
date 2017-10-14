@@ -1,8 +1,15 @@
+import os
+
 class Config:
     pass
 
 class ProdConfig(Config):
-    SQLALCHEMY_DATABASE_URI='postgresql://dgukmpjsoknhpi:c36296c6182e9d163e1a7d4db18cecbb77e5b3cece2a2977af2be9a088fdfa02@ec2-23-23-248-162.compute-1.amazonaws.com:5432/daksnb3kg25trr'
+    SQLALCHEMY_DATABASE_URI='postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:5432/{DB_DATABASE}'.format(
+        DB_USERNAME=os.getenv('DB_USERNAME'),
+        DB_PASSWORD=os.getenv('DB_PASSWORD'),
+        DB_HOST=os.getenv('DB_HOST'),
+        DB_DATABASE=os.getenv('DB_DATABASE')
+    )
 
 class LocalConfig(Config):
     SQLALCHEMY_DATABASE_URI='sqlite:///test.db'

@@ -22,7 +22,7 @@ class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     street_address = db.Column(db.String)
     zipcode = db.Column(db.Integer)
-    phone_number = db.Column(db.Integer)
+    phone_number = db.Column(db.BigInteger)
     long = db.Column(db.Float)
     lat = db.Column(db.Float)
 

@@ -7,8 +7,11 @@ from main import db
 addresses = Blueprint('addresses', __name__)
 
 @addresses.route('/addresses', methods=['GET'])
-def get_addresses():
+@addresses.route('/addresses/<int:id>', methods=['GET'])
+def get_addresses(id=None):
     query_params = request.args.to_dict()
+    if id is not None:
+        query_params['id'] = id
     addresses = Address.query.filter_by(**query_params).all()
 
     addresses_list = []

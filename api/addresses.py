@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, request, Response
 from models import Doctor, Address
-from main import db
+from utils import ifilter_by
 
 addresses = Blueprint('addresses', __name__)
 
@@ -12,7 +12,7 @@ def get_addresses(id=None):
     query_params = request.args.to_dict()
     if id is not None:
         query_params['id'] = id
-    addresses = Address.query.filter_by(**query_params).all()
+    addresses = Address.query.filter(ifilter_by(Address, **query_params)).all()
 
     addresses_list = []
     for address in addresses:

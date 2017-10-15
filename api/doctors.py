@@ -1,8 +1,10 @@
 import json
 
 from flask import Blueprint, request, Response
+from sqlalchemy import func, and_
 from models import Doctor, Address, Rating
 from main import db
+from utils import ifilter_by
 
 doctors = Blueprint('doctors', __name__)
 
@@ -32,10 +34,11 @@ def make_doctor():
 @doctors.route('/doctors', methods=['GET'])
 @doctors.route('/doctors/<int:id>', methods=['GET'])
 def get_doctors(id=None):
+    query_params = request.args.to_dict()
     if id is not None:
-        doctors = Doctor.query.filter_by(id=id).all()
-    else:
-        doctors = Doctor.query.all()
+        query_params['id'] = id
+
+    doctors = Doctor.query.filter(ifilter_by(Doctor, **query_params)).all()
 
     doctor_list = []
     for doctor in doctors:

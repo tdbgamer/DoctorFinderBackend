@@ -1,7 +1,7 @@
 import json
 
 from flask import Blueprint, request, Response
-from models import Doctor, Address
+from models import Doctor, Address, Rating
 from main import db
 
 doctors = Blueprint('doctors', __name__)
@@ -26,6 +26,21 @@ def make_doctor():
 
     return Response(status=200)
 
+@doctors.route('/doctors/<int:id>/ratings', methods=['POST'])
+def make_ratings(id):
+    json_data = request.get_json(force=True)
+
+    doc = Doctor.query.filter_by(id=id).first()
+    if doc is None:
+        return Response('Doctor does not exist', status=404)
+
+    doc.ratings.append(Rating(stars=json_data['stars'],
+                              username=json_data.get('username', 'Anonymous'),
+                              review=json_data['review']))
+
+    db.session.commit()
+
+    return Response(status=200)
 
 @doctors.route('/doctors', methods=['GET'])
 def get_doctors():

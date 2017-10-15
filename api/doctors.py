@@ -26,6 +26,21 @@ def make_doctor():
 
     return Response(status=200)
 
+
+@doctors.route('/doctors', methods=['GET'])
+@doctors.route('/doctors/<int:id>', methods=['GET'])
+def get_doctors(id=None):
+    if id is not None:
+        doctors = Doctor.query.filter_by(id=id).all()
+    else:
+        doctors = Doctor.query.all()
+
+    doctor_list = []
+    for doctor in doctors:
+        doctor_list.append(doctor.serialize(deep=True))
+    return Response(json.dumps(doctor_list), content_type='application/json')
+
+
 @doctors.route('/doctors/<int:id>/ratings', methods=['POST'])
 def make_ratings(id):
     json_data = request.get_json(force=True)
@@ -41,11 +56,3 @@ def make_ratings(id):
     db.session.commit()
 
     return Response(status=200)
-
-@doctors.route('/doctors', methods=['GET'])
-def get_doctors():
-    doctors = Doctor.query.all()
-    doctor_list = []
-    for doctor in doctors:
-        doctor_list.append(doctor.serialize(deep=True))
-    return Response(json.dumps(doctor_list), content_type='application/json')

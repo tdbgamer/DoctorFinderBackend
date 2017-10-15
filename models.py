@@ -46,6 +46,8 @@ class Rating(db.Model):
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     street_address = db.Column(db.String)
+    state = db.Column(db.String)
+    city = db.Column(db.String)
     zipcode = db.Column(db.Integer)
     phone_number = db.Column(db.BigInteger)
     long = db.Column(db.Float)
@@ -55,6 +57,8 @@ class Address(db.Model):
         address = {"id": self.id,
                    "phone_number": self.phone_number,
                    "street_address": self.street_address,
+                   "city": self.city,
+                   "state": self.state,
                    "zipcode": self.zipcode,
                    "long": self.long,
                    "lat": self.lat}

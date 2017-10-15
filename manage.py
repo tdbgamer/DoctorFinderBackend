@@ -19,6 +19,8 @@ if __name__ == '__main__':
                     doctor = Doctor(name=row['name'], occupation=row['occupation'])
                     address = Address(phone_number=int(row['phone_number']),
                                       street_address=row['street_address'],
+                                      city=row['city'],
+                                      state=row['state'],
                                       zipcode=int(row['zipcode']),
                                       long=float(row['long']),
                                       lat=float(row['lat']))

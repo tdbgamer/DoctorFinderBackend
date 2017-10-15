@@ -16,6 +16,8 @@ def make_doctor():
     for address in json_data['addresses']:
         addr = Address(phone_number=address['phone_number'],
                        street_address=address['street_address'],
+                       city=address['city'],
+                       state=address['state'],
                        zipcode=address['zipcode'],
                        long=address['long'],
                        lat=address['lat'])
